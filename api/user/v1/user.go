@@ -15,7 +15,7 @@ const (
 )
 
 type CreateReq struct {
-    g.Meta `path:"/user" method:"put" tags:"User" summary:"Create user"`
+    g.Meta `path:"/user" method:"post" tags:"User" summary:"Create user"`
     Name   string `v:"required|length:3,10" dc:"user name"`
     Age    uint   `v:"required|between:18,200" dc:"user age"`
 }
@@ -24,7 +24,7 @@ type CreateRes struct {
 }
 
 type UpdateReq struct {
-    g.Meta `path:"/user/{id}" method:"post" tags:"User" summary:"Update user"`
+    g.Meta `path:"/user/{id}" method:"input" tags:"User" summary:"Update user"`
     Id     int64   `v:"required" dc:"user id"`
     Name   *string `v:"length:3,10" dc:"user name"`
     Age    *uint   `v:"between:18,200" dc:"user age"`
