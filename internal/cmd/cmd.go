@@ -6,8 +6,8 @@ import (
 	"demo/internal/controller/user"
 
 	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/net/ghttp"
-	"github.com/gogf/gf/v2/os/gcmd"
+	"github.com/gogf/gf/v2/net/ghttp" //HTTP sever in GoFrame
+	"github.com/gogf/gf/v2/os/gcmd"   // CLI command in GoFrame
 
 	"demo/internal/controller/hello"
 )
@@ -18,16 +18,19 @@ var (
 		Usage: "main",
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
-			s := g.Server()
-			s.AddStaticPath("/swagger", "resource/public/swagger")
+			s := g.Server()                                        //init HTTP sever in GoFrame
+			s.AddStaticPath("/swagger", "resource/public/swagger") //Swager UI
+			//Define group of route
 			s.Group("/", func(group *ghttp.RouterGroup) {
+				//Middleware resolve reponse in GoFrame
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
+				//Blind controller hello and user into router
 				group.Bind(
 					hello.NewV1(),
 					user.NewV1(),
 				)
 			})
-			s.Run()
+			s.Run() //init sever
 			return nil
 		},
 	}

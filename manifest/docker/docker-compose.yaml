@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: ../..
+      dockerfile: manifest/docker/Dockerfile
+    container_name: goframe-app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - GF_DB_DEFAULT_LINK=pgsql:postgres:postgres@tcp(db:5432)/goframe_db
+    volumes:
+      - ../../manifest/config:/app/config
+
+  db:
+    image: postgres:15
+    container_name: goframe-db
+    environment:
+      POSTGRES_DB: goframe_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
