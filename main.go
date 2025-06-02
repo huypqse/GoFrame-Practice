@@ -3,6 +3,8 @@ package main
 import (
 	_ "demo/internal/packed"
 
+	_ "demo/internal/logic"
+
 	// Import PostgreSQL driver for GoFrame
 	_ "github.com/gogf/gf/contrib/drivers/pgsql/v2"
 
