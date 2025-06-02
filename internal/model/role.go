@@ -5,6 +5,9 @@ type RoleCreateInput struct {
 }
 
 type RoleUpdateInput struct {
-	Id   int64
-	Name string
+	Id   int64  `json:"id" in:"path"` // Lấy id từ path
+	Name string `json:"name"`         // Lấy name từ body hoặc query
+}
+type DeleteReq struct {
+	Id int64 `json:"id" in:"path"`
 }

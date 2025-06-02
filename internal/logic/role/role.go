@@ -9,6 +9,7 @@ import (
 	"demo/internal/service"
 
 	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
 )
 
 type sRole struct{}
@@ -21,7 +22,6 @@ func New() service.IRole {
 	return &sRole{}
 }
 
-// gf gen service when you already have role.go in logic and generate in package service role.go
 // Create role
 func (s *sRole) Create(ctx context.Context, in model.RoleCreateInput) (id int64, err error) {
 	err = dao.Role.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
@@ -39,13 +39,20 @@ func (s *sRole) Create(ctx context.Context, in model.RoleCreateInput) (id int64,
 
 // Delete role
 func (s *sRole) Delete(ctx context.Context, id int64) error {
-	_, err := dao.Role.Ctx(ctx).WherePri(id).Delete()
-	return err
+	result, err := dao.Role.Ctx(ctx).Where("id", id).Delete()
+	if err != nil {
+		return err
+	}
+	rows, _ := result.RowsAffected()
+	if rows == 0 {
+		return gerror.Newf("Role id %d not found", id)
+	}
+	return nil
 }
 
 // Update role
 func (s *sRole) Update(ctx context.Context, in model.RoleUpdateInput) error {
-	_, err := dao.Role.Ctx(ctx).WherePri(in.Id).Data(do.Role{
+	_, err := dao.Role.Ctx(ctx).Where("id", in.Id).Data(do.Role{
 		Name: in.Name,
 	}).Update()
 	return err
@@ -54,7 +61,7 @@ func (s *sRole) Update(ctx context.Context, in model.RoleUpdateInput) error {
 // Get one role
 func (s *sRole) GetOne(ctx context.Context, id int64) (*entity.Role, error) {
 	var role entity.Role
-	err := dao.Role.Ctx(ctx).WherePri(id).Scan(&role)
+	err := dao.Role.Ctx(ctx).Where("id", id).Scan(&role)
 	if err != nil {
 		return nil, err
 	}

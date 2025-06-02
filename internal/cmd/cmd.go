@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 
+	"demo/internal/controller/role"
 	"demo/internal/controller/user"
 
 	"github.com/gogf/gf/v2/frame/g"
@@ -28,6 +29,7 @@ var (
 				group.Bind(
 					hello.NewV1(),
 					user.NewV1(),
+					role.NewV1(),
 				)
 			})
 			s.Run() //init sever
