@@ -94,8 +94,8 @@ func Authenticator(ctx context.Context) (interface{}, error) {
 
 	// Return user info to be stored in the token
 	return g.Map{
-		"uid":      user.Id,
-		"username": user.Username,
+		"uid": user.Id,
+		// "username": user.Username,
 	}, nil
 }
 
