@@ -11,6 +11,8 @@ import (
 // Hello handles the /hello endpoint for API version 1.
 // It writes "Hello World!" to the HTTP response.
 func (c *ControllerV1) Hello(ctx context.Context, req *v1.HelloReq) (res *v1.HelloRes, err error) {
+	// token, _ := service.JWTAuth().LoginHandler(ctx)
+	// g.RequestFromCtx(ctx).Response.Writeln(token)
 	g.RequestFromCtx(ctx).Response.Writeln("Hello World!")
 	return
 }
